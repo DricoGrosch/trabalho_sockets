@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Server {
+    final String CREATE = "create";
+    final String UPDATE = "update";
+    final String DELETE = "delete";
+    final String GETONE = "getone";
+    final String GETALL = "getall";
     PrintStream ps;
     ArrayList<Student> students;
 
@@ -60,17 +65,18 @@ public class Server {
         switch (params.get("model")) {
             case "student": {
                 switch (params.get("operation")) {
-                    case BaseModel.CREATE: {
+                    case CREATE: {
                         Student s = (Student) new Student().create(params);
                         ps.println("Student created successfully");
                         this.students.add(s);
                         break;
                     }
-                    case BaseModel.UPDATE: {
+                    case UPDATE: {
                         Student s = this.getStudent(params.get("cpf"));
                         if (s != null) {
                             s.setAddress(params.get("address"));
                             s.setName(params.get("name"));
+                            s.setRegistrationNumber(params.get("registrationNumber"));
                             this.ps.println("Student updated successfully");
                         } else {
                             this.ps.println("Student not found");
@@ -78,7 +84,7 @@ public class Server {
                         break;
 
                     }
-                    case BaseModel.DELETE: {
+                    case DELETE: {
                         Student s = this.getStudent(params.get("cpf"));
                         if (s != null) {
                             this.students.remove(s);
@@ -89,7 +95,7 @@ public class Server {
                         break;
 
                     }
-                    case BaseModel.GETONE: {
+                    case GETONE: {
                         Student s = this.getStudent(params.get("cpf"));
                         if (s != null) {
                             this.ps.println(s.toString());

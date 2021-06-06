@@ -14,9 +14,26 @@ public class Student extends Person {
         this.registrationNumber = registrationNumber;
     }
 
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
     @Override
-    public BaseModel create(HashMap<String, String> params) {
-        Student s = new Student(params.get("name"), params.get("cpf"), params.get("address"), "");
+    public Person create(HashMap<String, String> params) {
+        Student s = (Student) super.create(params);
+        s.registrationNumber = params.get("registrationNumber");
         return s;
+    }
+
+    @Override
+    public String toString() {
+        String msg = super.toString();
+        msg += "registrationNumber='" + registrationNumber + '\'' +
+                '}';
+        return msg;
     }
 }
