@@ -26,9 +26,6 @@ public class Consumer {
         try {
             this.socket = new Socket(host, port);
             System.out.println("connected");
-//            InputStream input = this.socket.getInputStream();
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-//            String data = reader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -23,11 +23,4 @@ public class Student extends Person {
         super(name, cpf, address);
     }
 
-    public static Student createFromQueryString(String query) {
-        String[] params = query.split(";");
-        String cpf = params[2].split("=")[1];
-        String name = params[3].split("=")[1];
-        String address = params[4].split("=")[1];
-        return new Student(cpf, name, address);
-    }
 }

@@ -42,7 +42,7 @@ public class main {
                     String name = s.next();
                     System.out.println("address");
                     String address = s.next();
-                    consumer.sendMessage("model=STUDENT;operation=CREATE;cpf=" + cpf + ";name=" + name + ";address=" + address + ";");
+                    consumer.sendMessage("model=student;operation=create;cpf=" + cpf + ";name=" + name + ";address=" + address + ";");
                 }
                 case 2: {
 
