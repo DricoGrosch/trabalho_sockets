@@ -66,7 +66,7 @@ public class Server {
             case "student": {
                 switch (params.get("operation")) {
                     case CREATE: {
-                        Student s = (Student) new Student().create(params);
+                        Student s = new Student(params.get("name"), params.get("cpf"), params.get("address"), params.get("registrationNumber"));
                         ps.println("Student created successfully");
                         this.students.add(s);
                         break;

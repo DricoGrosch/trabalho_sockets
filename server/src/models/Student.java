@@ -1,8 +1,5 @@
 package models;
 
-import java.io.PrintStream;
-import java.util.HashMap;
-
 public class Student extends Person {
     private String registrationNumber;
 
@@ -22,12 +19,6 @@ public class Student extends Person {
         this.registrationNumber = registrationNumber;
     }
 
-    @Override
-    public Person create(HashMap<String, String> params) {
-        Student s = (Student) super.create(params);
-        s.registrationNumber = params.get("registrationNumber");
-        return s;
-    }
 
     @Override
     public String toString() {

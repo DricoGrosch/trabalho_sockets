@@ -40,11 +40,6 @@ public class Person {
         this.address = address;
     }
 
-    public Person create(HashMap<String, String> params) {
-        Person p = new Person(params.get("name"), params.get("cpf"), params.get("address"));
-        return p;
-    }
-
     @Override
     public String toString() {
         return "Person{" +
