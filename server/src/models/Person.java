@@ -37,4 +37,13 @@ public abstract class Person extends BaseModel {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }

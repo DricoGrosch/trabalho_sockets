@@ -1,10 +1,5 @@
 package models;
 
-import com.sun.xml.internal.ws.util.StringUtils;
-import models.*;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,12 +7,24 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Server {
     PrintStream ps;
+    ArrayList<Student> students;
+
+    public Student getStudent(String cpf) {
+        for (Student s : this.students) {
+            if (s.getCpf().equals(cpf)) {
+                return s;
+            }
+        }
+        return null;
+    }
 
     public Server(int port) throws IOException, ScriptException {
+        this.students = new ArrayList<>();
         ServerSocket ss = new ServerSocket(port);
         System.out.println("Waiting connections");
         Socket s = ss.accept();
@@ -51,17 +58,64 @@ public class Server {
             params.put(param.split("=")[0], param.split("=")[1]);
         }
         switch (params.get("model")) {
-
             case "student": {
-                new Student().dispatchOperation(params, this.ps);
+                switch (params.get("operation")) {
+                    case BaseModel.CREATE: {
+                        Student s = (Student) new Student().create(params);
+                        ps.println("Student created successfully");
+                        this.students.add(s);
+                        break;
+                    }
+                    case BaseModel.UPDATE: {
+                        Student s = this.getStudent(params.get("cpf"));
+                        if (s != null) {
+                            s.setAddress(params.get("address"));
+                            s.setName(params.get("name"));
+                            this.ps.println("Student updated successfully");
+                        } else {
+                            this.ps.println("Student not found");
+                        }
+                        break;
+
+                    }
+                    case BaseModel.DELETE: {
+                        Student s = this.getStudent(params.get("cpf"));
+                        if (s != null) {
+                            this.students.remove(s);
+                            this.ps.println("Student removed successfully");
+                        } else {
+                            this.ps.println("Student not found");
+                        }
+                        break;
+
+                    }
+                    case BaseModel.GETONE: {
+                        Student s = this.getStudent(params.get("cpf"));
+                        if (s != null) {
+                            this.ps.println(s.toString());
+                        } else {
+                            this.ps.println("Student not found");
+                        }
+                        break;
+
+
+                    }
+                    default: {
+                        String str = "";
+                        for (Student s : this.students) {
+                            str += s.toString();
+                        }
+                        this.ps.println(str);
+                        break;
+                    }
+                }
+                break;
             }
             case "teacher": {
                 break;
-
             }
             case "classroom": {
                 break;
-
             }
         }
     }

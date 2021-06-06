@@ -1,17 +1,12 @@
 package models;
 
+import java.io.PrintStream;
+import java.util.HashMap;
+
 public class Student extends Person {
     private String registrationNumber;
 
     public Student() {
-    }
-
-    public String getRegistrationNumber() {
-        return registrationNumber;
-    }
-
-    public void setRegistrationNumber(String registrationNumber) {
-        this.registrationNumber = registrationNumber;
     }
 
     public Student(String name, String cpf, String address, String registrationNumber) {
@@ -19,8 +14,9 @@ public class Student extends Person {
         this.registrationNumber = registrationNumber;
     }
 
-    public Student(String name, String cpf, String address) {
-        super(name, cpf, address);
+    @Override
+    public BaseModel create(HashMap<String, String> params) {
+        Student s = new Student(params.get("name"), params.get("cpf"), params.get("address"), "");
+        return s;
     }
-
 }
