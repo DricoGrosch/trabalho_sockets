@@ -38,7 +38,7 @@ public class Consumer {
                     new InputStreamReader(
                             this.socket.getInputStream()));
 
-            String response;
+            String response = "";
             while (!(response = br.readLine()).equals("exit")) {
                 System.out.println(response);
                 System.out.println("1- To handle students \n" +
@@ -46,13 +46,20 @@ public class Consumer {
                         "3 - To handle Classrooms \n" +
                         "4 - To exit");
                 int modelToHandle = s.nextInt();
-                System.out.println("Please, enter the operation \n" +
-                        "1- CREATE \n" +
-                        "2 - UPDATE\n" +
-                        "3 - DELETE \n" +
-                        "4 - GET ONE \n" +
-                        "5 - LIST ALL");
-                int operation = s.nextInt();
+                int operation = 0;
+                if (modelToHandle != 4) {
+                    String msg = "Please, enter the operation \n" +
+                            "1- CREATE \n" +
+                            "2 - UPDATE\n" +
+                            "3 - DELETE \n" +
+                            "4 - GET ONE \n" +
+                            "5 - LIST ALL";
+                    if (modelToHandle == 3){
+                        msg += "\n"+"6 - ADD STUDENT \n" +"7 - ADD TEACHER \n"+"8 - REMOVE STUDENT \n" +"9 - REMOVE TEACHER \n";
+                    }
+                        System.out.println(msg);
+                    operation = s.nextInt();
+                }
                 switch (modelToHandle) {
                     case 1: {
                         String strParams = "";
@@ -154,8 +161,58 @@ public class Consumer {
 
                     }
                     case 3: {
-                        System.out.println("cpf");
-                        String cpf = s.next();
+                        String strParams = "";
+                        String strOperation = "getall";
+                        switch (operation) {
+                            case 1: {
+                                System.out.println("Class Number");
+                                String classNumber = s.next();
+
+                                strParams = "classNumber=" + classNumber;
+                                strOperation = "create";
+                                break;
+                            }
+                            case 2: {
+                                System.out.println("Class Number");
+                                String classNumber = s.next();
+
+                                System.out.println("new class Number");
+                                String newClassNumber = s.next();
+
+                                strParams = "classNumber=" + classNumber+ ";newClassNumber="+newClassNumber;
+                                strOperation = "update";
+                                break;
+                            }
+                            case 3: {
+                                System.out.println("Class Number");
+                                String classNumber = s.next();
+                                strOperation = "delete";
+                                strParams = "classNumber=" + classNumber;
+                                break;
+                            }
+                            case 4: {
+                                System.out.println("cpf");
+                                String cpf = s.next();
+                                strOperation = "getone";
+                                strParams = "cpf=" + cpf;
+                                break;
+                            }
+                            case 6:{
+                                System.out.println("Class Number");
+                                String classNumber = s.next();
+
+                                System.out.println("CPF Student");
+                                String cpf = s.next();
+
+                                strParams = "classNumber=" + classNumber + ";cpf=" + cpf;
+                                strOperation = "addstudent";
+                                break;
+
+
+                            }
+                        }
+                        String message = "model=classroom;operation=" + strOperation + ";" + strParams;
+                        this.stream.writeUTF(message);
                         break;
 
                     }

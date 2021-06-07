@@ -1,5 +1,6 @@
 package models;
 
+import controllers.ClassroomController;
 import controllers.StudentController;
 import controllers.TeacherController;
 
@@ -16,7 +17,10 @@ public class Server {
     final String UPDATE = "update";
     final String DELETE = "delete";
     final String GETONE = "getone";
-    final String GETALL = "getall";
+    final String ADDSTUDENT = "addstudent";
+    final String ADDTEACHER = "addteacher";
+    final String REMOVESTUDENT = "removestudent";
+    final String REMOVETEACHER = "removeteacher";
     PrintStream ps;
     DataInputStream stream;
 
@@ -111,7 +115,36 @@ public class Server {
                 break;
             }
             case "classroom": {
-                System.out.println("classroom");
+                switch (params.get("operation")) {
+                    case CREATE: {
+                        ClassroomController.create(params, this.ps);
+                        break;
+                    }
+                    case UPDATE: {
+                        ClassroomController.update(params, this.ps);
+                        break;
+
+                    }
+                    case DELETE: {
+                        //ClassroomController.delete(params, this.ps);
+                        break;
+
+                    }
+                    case GETONE: {
+                        //ClassroomController.getOne(params, this.ps);
+                        break;
+
+
+                    }
+                    case ADDSTUDENT:{
+                        ClassroomController.addStudent(params, this.ps);
+                        break;
+                    }
+                    default: {
+                        ClassroomController.getAll(params, this.ps);
+                        break;
+                    }
+                }
                 break;
             }
         }
