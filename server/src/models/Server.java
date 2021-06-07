@@ -16,11 +16,9 @@ public class Server {
     final String GETALL = "getall";
     PrintStream ps;
     DataInputStream stream;
-    HashMap<String, Student> students;
 
     public Server(int port) throws IOException, ScriptException {
 //        todo criar um classe pra guardar o "banco de dados"
-        this.students = new HashMap<>();
         ServerSocket ss = new ServerSocket(port);
         System.out.println("Waiting connections");
         Socket s = ss.accept();
@@ -57,11 +55,11 @@ public class Server {
                     case CREATE: {
                         Student s = new Student(params.get("name"), params.get("cpf"), params.get("address"), params.get("registrationNumber"));
                         this.ps.println("Student created successfully");
-                        this.students.put(s.getCpf(), s);
+                        Database.students.put(s.getCpf(), s);
                         break;
                     }
                     case UPDATE: {
-                        Student s = this.students.get(params.get("cpf"));
+                        Student s = Database.students.get(params.get("cpf"));
                         if (s != null) {
                             s.setAddress(params.get("address"));
                             s.setName(params.get("name"));
@@ -74,9 +72,9 @@ public class Server {
 
                     }
                     case DELETE: {
-                        Student s = this.students.get(params.get("cpf"));
+                        Student s = Database.students.get(params.get("cpf"));
                         if (s != null) {
-                            this.students.remove(s.getCpf());
+                            Database.students.remove(s.getCpf());
                             this.ps.println("Student removed successfully");
                         } else {
                             this.ps.println("Student not found");
@@ -85,7 +83,7 @@ public class Server {
 
                     }
                     case GETONE: {
-                        Student s = this.students.get(params.get("cpf"));
+                        Student s = Database.students.get(params.get("cpf"));
                         if (s != null) {
                             this.ps.println(s.toString());
                         } else {
@@ -96,10 +94,9 @@ public class Server {
 
                     }
                     default: {
-
                         String str = "";
-                        for (String cpf : this.students.keySet()) {
-                            str += this.students.get(cpf).toString();
+                        for (String cpf : Database.students.keySet()) {
+                            str += Database.students.get(cpf).toString();
                         }
                         this.ps.println(str);
                         break;

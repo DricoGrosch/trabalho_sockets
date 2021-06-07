@@ -1,5 +1,7 @@
 package models;
 
+import javax.xml.crypto.Data;
+
 public class Student extends Person {
     private String registrationNumber;
 
@@ -25,6 +27,13 @@ public class Student extends Person {
         String msg = super.toString();
         msg += "registrationNumber='" + registrationNumber + '\'' +
                 '}';
+        String rooms = "";
+        for (String k : Database.classrooms.keySet()) {
+            if (Database.classrooms.get(k).getStudent(this.getCpf()) != null) {
+                rooms += Database.classrooms.get(k).toString();
+            }
+        }
+        msg += rooms;
         return msg;
     }
 }

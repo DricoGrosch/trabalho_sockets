@@ -1,13 +1,17 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Classroom {
-    ArrayList<Student> students = new ArrayList<>();
+    private HashMap<String, Student> students = new HashMap<>();
 
-    public void addStudent(Student s) {
-        this.students.add(s);
+    public Student getStudent(String cpf) {
+        for (String k : this.students.keySet()) {
+            if (cpf.equals(k)) {
+                return this.students.get(k);
+            }
+        }
+        return null;
     }
-
-
 }

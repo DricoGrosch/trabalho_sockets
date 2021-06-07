@@ -98,9 +98,6 @@ public class Consumer {
                                 strParams = "cpf=" + cpf;
                                 break;
                             }
-                            default: {
-                                strOperation = "getall";
-                            }
                         }
                         String message = "model=student;operation=" + strOperation + ";" + strParams;
                         this.stream.writeUTF(message);
