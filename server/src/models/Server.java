@@ -19,6 +19,7 @@ public class Server {
     HashMap<String, Student> students;
 
     public Server(int port) throws IOException, ScriptException {
+//        todo criar um classe pra guardar o "banco de dados"
         this.students = new HashMap<>();
         ServerSocket ss = new ServerSocket(port);
         System.out.println("Waiting connections");
@@ -41,6 +42,7 @@ public class Server {
         }
     }
 
+    //todo criar um controller porque isso aqui ta muito grande
     public void handleMessage(String message) throws ScriptException {
         String[] query = message.split(";");
         HashMap<String, String> params = new HashMap<>();
@@ -49,11 +51,13 @@ public class Server {
         }
         switch (params.get("model")) {
             case "student": {
+//                todo testar e replicar pras outras classes (sala tem que ter uma opção pra add aluno e professor)
+//                todo só passar o cpf de cada um e adicionar no objeto de turma (hashmap.put(cpf, objeto))
                 switch (params.get("operation")) {
                     case CREATE: {
                         Student s = new Student(params.get("name"), params.get("cpf"), params.get("address"), params.get("registrationNumber"));
                         this.ps.println("Student created successfully");
-                        this.students.put(s.getCpf(),s);
+                        this.students.put(s.getCpf(), s);
                         break;
                     }
                     case UPDATE: {
