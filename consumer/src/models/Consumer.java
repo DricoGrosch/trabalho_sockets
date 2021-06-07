@@ -27,12 +27,17 @@ public class Consumer {
         this.port = port;
         try {
             this.socket = new Socket(host, port);
-            this.stream = new DataOutputStream(this.socket.getOutputStream());
             System.out.println("connected");
+
+            // to send data to the server
+            this.stream = new DataOutputStream(
+                    this.socket.getOutputStream());
+
             BufferedReader br
                     = new BufferedReader(
                     new InputStreamReader(
-                            this.getSocket().getInputStream()));
+                            this.socket.getInputStream()));
+
             String response;
             while (!(response = br.readLine()).equals("exit")) {
                 System.out.println(response);
@@ -40,26 +45,57 @@ public class Consumer {
                         "2 - To handle Teachers\n" +
                         "3 - To handle Classrooms \n" +
                         "4 - To exit");
-                int operation = s.nextInt();
+                int modelToHandle = s.nextInt();
                 System.out.println("Please, enter the operation \n" +
                         "1- CREATE \n" +
                         "2 - UPDATE\n" +
                         "3 - DELETE \n" +
                         "4 - GET ONE \n" +
                         "5 - LIST ALL");
-                int crudOperation = s.nextInt();
-                switch (operation) {
+                int operation = s.nextInt();
+                switch (modelToHandle) {
                     case 1: {
-//                    todo switch with crud operation
-                        System.out.println("cpf");
-                        String cpf = s.next();
-                        System.out.println("name");
-                        String name = s.next();
-                        System.out.println("address");
-                        String address = s.next();
-                        System.out.println("registration Number");
-                        String registrationNumber = s.next();
-                        this.stream.writeBytes("model=student;operation=create;cpf=" + cpf + ";name=" + name + ";address=" + address + ";registrationNumber=" + registrationNumber);
+                        String strParams = "";
+                        String strOperation ="getall";
+                        switch (operation) {
+                            case 1: {
+                                System.out.println("cpf");
+                                String cpf = s.next();
+                                System.out.println("name");
+                                String name = s.next();
+                                System.out.println("address");
+                                String address = s.next();
+                                System.out.println("registration Number");
+                                String registrationNumber = s.next();
+                                strParams = "cpf=" + cpf + ";name=" + name + ";address=" + address + ";registrationNumber=" + registrationNumber;
+                                strOperation = "create";
+                                break;
+                            }
+                            case 2: {
+                                System.out.println("cpf");
+                                String cpf = s.next();
+                                System.out.println("name");
+                                String name = s.next();
+                                System.out.println("address");
+                                String address = s.next();
+                                System.out.println("registration Number");
+                                String registrationNumber = s.next();
+                                strParams = "cpf=" + cpf + ";name=" + name + ";address=" + address + ";registrationNumber=" + registrationNumber;
+                                strOperation = "update";
+                                break;
+                            }
+                            case 3: {
+                                break;
+                            }
+                            case 4: {
+                                break;
+                            }
+                            default: {
+                                strOperation = "getall";
+                            }
+                        }
+                        String message = "model=student;operation=" + strOperation + ";" + strParams;
+                        this.stream.writeUTF(message);
                         break;
                     }
                     case 2: {

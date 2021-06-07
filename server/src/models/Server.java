@@ -1,12 +1,10 @@
 package models;
 
 import javax.script.ScriptException;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,6 +15,7 @@ public class Server {
     final String GETONE = "getone";
     final String GETALL = "getall";
     PrintStream ps;
+    DataInputStream stream;
     ArrayList<Student> students;
 
     public Student getStudent(String cpf) {
@@ -34,24 +33,19 @@ public class Server {
         System.out.println("Waiting connections");
         Socket s = ss.accept();
         System.out.println("Connection established");
-        this.ps
-                = new PrintStream(s.getOutputStream());
-        BufferedReader br
-                = new BufferedReader(
-                new InputStreamReader(
-                        s.getInputStream()));
+
+        this.ps = new PrintStream(s.getOutputStream());
+
+        this.stream = new DataInputStream(s.getInputStream());
 
         this.ps.println("Connection established");
         while (true) {
-            String str;
-            while ((str = br.readLine()) != null) {
-                this.handleMessage(str);
-            }
+            this.handleMessage(this.stream.readUTF());
 
-            br.close();
-            ss.close();
-            s.close();
-            System.exit(0);
+//            br.close();
+//            ss.close();
+//            s.close();
+//            System.exit(0);
 
         }
     }
@@ -67,7 +61,7 @@ public class Server {
                 switch (params.get("operation")) {
                     case CREATE: {
                         Student s = new Student(params.get("name"), params.get("cpf"), params.get("address"), params.get("registrationNumber"));
-                        ps.println("Student created successfully");
+                        this.ps.println("Student created successfully");
                         this.students.add(s);
                         break;
                     }
@@ -118,9 +112,11 @@ public class Server {
                 break;
             }
             case "teacher": {
+                System.out.println("teacher");
                 break;
             }
             case "classroom": {
+                System.out.println("classroom");
                 break;
             }
         }
