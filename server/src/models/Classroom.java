@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Classroom {
-    private HashMap<String, Student> students = new HashMap<>();
+    private final HashMap<String, Student> students = new HashMap<>();
     private int classNumber;
 
     public Classroom(int classNumber) {
@@ -45,15 +45,9 @@ public class Classroom {
 
     @Override
     public String toString() {
-        String msg = "";
 
-        for (String k : students.keySet()) {
-
-            msg += students.get(k).toString();
-
-        }
         return "Classroom{" +
-                "Class Number=" + classNumber +"| "+msg+
+                "Class Number=" + classNumber +"| "+
                 '}';
     }
 }

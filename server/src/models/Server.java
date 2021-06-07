@@ -126,7 +126,7 @@ public class Server {
 
                     }
                     case DELETE: {
-                        //ClassroomController.delete(params, this.ps);
+                        ClassroomController.delete(params, this.ps);
                         break;
 
                     }

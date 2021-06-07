@@ -55,7 +55,7 @@ public class Consumer {
                             "4 - GET ONE \n" +
                             "5 - LIST ALL";
                     if (modelToHandle == 3){
-                        msg += "\n"+"6 - ADD STUDENT \n" +"7 - ADD TEACHER \n"+"8 - REMOVE STUDENT \n" +"9 - REMOVE TEACHER \n";
+                        msg += "\n"+"6 - ADD STUDENT";
                     }
                         System.out.println(msg);
                     operation = s.nextInt();
@@ -191,10 +191,10 @@ public class Consumer {
                                 break;
                             }
                             case 4: {
-                                System.out.println("cpf");
-                                String cpf = s.next();
+                                System.out.println("Class Number");
+                                String classNumber = s.next();
                                 strOperation = "getone";
-                                strParams = "cpf=" + cpf;
+                                strParams = "classNumber=" + classNumber;
                                 break;
                             }
                             case 6:{

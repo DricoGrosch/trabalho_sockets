@@ -29,7 +29,7 @@ public class ClassroomController {
         String newNumberClass = params.get("newClassNumber");
 
         if (numberClass != null){
-            Classroom c = Database.classrooms.get(""+numberClass);
+            Classroom c = Database.classrooms.get(numberClass);
 
 
             if (c !=null){
@@ -43,6 +43,25 @@ public class ClassroomController {
             }
         }else{
             ps.println("Classroom updated ERROR");
+        }
+    }
+
+    public static void delete(HashMap<String, String> params, PrintStream ps) {
+        Classroom c  = Database.classrooms.get(params.get("classNumber"));
+        if (c != null) {
+            Database.classrooms.remove(""+c.getClassNumber());
+            ps.println("Classroom removed");
+        }else{
+            ps.println("Classroom not found to remove");
+        }
+    }
+
+    public static void getOne(HashMap<String, String> params, PrintStream ps) {
+        Classroom c  = Database.classrooms.get(params.get("classNumber"));
+        if (c!=null){
+            ps.println(c.toString());
+        }else{
+            ps.println("Classroom not found");
         }
     }
 
