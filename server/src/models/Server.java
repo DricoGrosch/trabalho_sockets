@@ -76,7 +76,7 @@ public class Server {
                     case DELETE: {
                         Student s = this.students.get(params.get("cpf"));
                         if (s != null) {
-                            this.students.remove(s);
+                            this.students.remove(s.getCpf());
                             this.ps.println("Student removed successfully");
                         } else {
                             this.ps.println("Student not found");
@@ -96,6 +96,7 @@ public class Server {
 
                     }
                     default: {
+
                         String str = "";
                         for (String cpf : this.students.keySet()) {
                             str += this.students.get(cpf).toString();

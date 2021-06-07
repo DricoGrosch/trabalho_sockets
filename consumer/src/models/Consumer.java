@@ -56,7 +56,7 @@ public class Consumer {
                 switch (modelToHandle) {
                     case 1: {
                         String strParams = "";
-                        String strOperation ="getall";
+                        String strOperation = "getall";
                         switch (operation) {
                             case 1: {
                                 System.out.println("cpf");
@@ -85,9 +85,17 @@ public class Consumer {
                                 break;
                             }
                             case 3: {
+                                System.out.println("cpf");
+                                String cpf = s.next();
+                                strOperation = "delete";
+                                strParams = "cpf=" + cpf;
                                 break;
                             }
                             case 4: {
+                                System.out.println("cpf");
+                                String cpf = s.next();
+                                strOperation = "getone";
+                                strParams = "cpf=" + cpf;
                                 break;
                             }
                             default: {
