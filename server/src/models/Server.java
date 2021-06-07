@@ -1,11 +1,11 @@
 package models;
 
 import javax.script.ScriptException;
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Server {
@@ -16,19 +16,10 @@ public class Server {
     final String GETALL = "getall";
     PrintStream ps;
     DataInputStream stream;
-    ArrayList<Student> students;
-
-    public Student getStudent(String cpf) {
-        for (Student s : this.students) {
-            if (s.getCpf().equals(cpf)) {
-                return s;
-            }
-        }
-        return null;
-    }
+    HashMap<String, Student> students;
 
     public Server(int port) throws IOException, ScriptException {
-        this.students = new ArrayList<>();
+        this.students = new HashMap<>();
         ServerSocket ss = new ServerSocket(port);
         System.out.println("Waiting connections");
         Socket s = ss.accept();
@@ -62,11 +53,11 @@ public class Server {
                     case CREATE: {
                         Student s = new Student(params.get("name"), params.get("cpf"), params.get("address"), params.get("registrationNumber"));
                         this.ps.println("Student created successfully");
-                        this.students.add(s);
+                        this.students.put(s.getCpf(),s);
                         break;
                     }
                     case UPDATE: {
-                        Student s = this.getStudent(params.get("cpf"));
+                        Student s = this.students.get(params.get("cpf"));
                         if (s != null) {
                             s.setAddress(params.get("address"));
                             s.setName(params.get("name"));
@@ -79,7 +70,7 @@ public class Server {
 
                     }
                     case DELETE: {
-                        Student s = this.getStudent(params.get("cpf"));
+                        Student s = this.students.get(params.get("cpf"));
                         if (s != null) {
                             this.students.remove(s);
                             this.ps.println("Student removed successfully");
@@ -90,7 +81,7 @@ public class Server {
 
                     }
                     case GETONE: {
-                        Student s = this.getStudent(params.get("cpf"));
+                        Student s = this.students.get(params.get("cpf"));
                         if (s != null) {
                             this.ps.println(s.toString());
                         } else {
@@ -102,8 +93,8 @@ public class Server {
                     }
                     default: {
                         String str = "";
-                        for (Student s : this.students) {
-                            str += s.toString();
+                        for (String cpf : this.students.keySet()) {
+                            str += this.students.get(cpf).toString();
                         }
                         this.ps.println(str);
                         break;
