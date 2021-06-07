@@ -1,6 +1,7 @@
 package models;
 
 import controllers.StudentController;
+import controllers.TeacherController;
 
 import javax.script.ScriptException;
 import java.io.DataInputStream;
@@ -81,7 +82,32 @@ public class Server {
                 break;
             }
             case "teacher": {
-                System.out.println("teacher");
+                switch (params.get("operation")) {
+                    case CREATE: {
+                        TeacherController.create(params, this.ps);
+                        break;
+                    }
+                    case UPDATE: {
+                        TeacherController.update(params, this.ps);
+                        break;
+
+                    }
+                    case DELETE: {
+                        TeacherController.delete(params, this.ps);
+                        break;
+
+                    }
+                    case GETONE: {
+                        TeacherController.getOne(params, this.ps);
+                        break;
+
+
+                    }
+                    default: {
+                        TeacherController.getAll(params, this.ps);
+                        break;
+                    }
+                }
                 break;
             }
             case "classroom": {

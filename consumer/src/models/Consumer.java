@@ -104,8 +104,52 @@ public class Consumer {
                         break;
                     }
                     case 2: {
-                        System.out.println("cpf");
-                        String cpf = s.next();
+                        String strParams = "";
+                        String strOperation = "getall";
+                        switch (operation) {
+                            case 1: {
+                                System.out.println("cpf");
+                                String cpf = s.next();
+                                System.out.println("name");
+                                String name = s.next();
+                                System.out.println("address");
+                                String address = s.next();
+                                System.out.println("discipline");
+                                String discipline = s.next();
+                                strParams = "cpf=" + cpf + ";name=" + name + ";address=" + address + ";discipline=" + discipline;
+                                strOperation = "create";
+                                break;
+                            }
+                            case 2: {
+                                System.out.println("cpf");
+                                String cpf = s.next();
+                                System.out.println("name");
+                                String name = s.next();
+                                System.out.println("address");
+                                String address = s.next();
+                                System.out.println("discipline");
+                                String discipline = s.next();
+                                strParams = "cpf=" + cpf + ";name=" + name + ";address=" + address + ";discipline=" + discipline;
+                                strOperation = "update";
+                                break;
+                            }
+                            case 3: {
+                                System.out.println("cpf");
+                                String cpf = s.next();
+                                strOperation = "delete";
+                                strParams = "cpf=" + cpf;
+                                break;
+                            }
+                            case 4: {
+                                System.out.println("cpf");
+                                String cpf = s.next();
+                                strOperation = "getone";
+                                strParams = "cpf=" + cpf;
+                                break;
+                            }
+                        }
+                        String message = "model=teacher;operation=" + strOperation + ";" + strParams;
+                        this.stream.writeUTF(message);
                         break;
 
                     }

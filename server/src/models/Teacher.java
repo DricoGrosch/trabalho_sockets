@@ -19,4 +19,11 @@ public class Teacher extends Person {
     public Teacher(String name, String cpf, String address) {
         super(name, cpf, address);
     }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                super.toString()+" discipline='" + discipline + '\'' +
+                '}';
+    }
 }
