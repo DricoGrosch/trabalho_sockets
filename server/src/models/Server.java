@@ -1,5 +1,7 @@
 package models;
 
+import controllers.StudentController;
+
 import javax.script.ScriptException;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -18,7 +20,6 @@ public class Server {
     DataInputStream stream;
 
     public Server(int port) throws IOException, ScriptException {
-//        todo criar um classe pra guardar o "banco de dados"
         ServerSocket ss = new ServerSocket(port);
         System.out.println("Waiting connections");
         Socket s = ss.accept();
@@ -49,56 +50,31 @@ public class Server {
         }
         switch (params.get("model")) {
             case "student": {
-//                todo testar e replicar pras outras classes (sala tem que ter uma opção pra add aluno e professor)
+//                todo replicar pras outras classes (sala tem que ter uma opção pra add aluno e professor)
 //                todo só passar o cpf de cada um e adicionar no objeto de turma (hashmap.put(cpf, objeto))
                 switch (params.get("operation")) {
                     case CREATE: {
-                        Student s = new Student(params.get("name"), params.get("cpf"), params.get("address"), params.get("registrationNumber"));
-                        this.ps.println("Student created successfully");
-                        Database.students.put(s.getCpf(), s);
+                        StudentController.create(params, this.ps);
                         break;
                     }
                     case UPDATE: {
-                        Student s = Database.students.get(params.get("cpf"));
-                        if (s != null) {
-                            s.setAddress(params.get("address"));
-                            s.setName(params.get("name"));
-                            s.setRegistrationNumber(params.get("registrationNumber"));
-                            this.ps.println("Student updated successfully");
-                        } else {
-                            this.ps.println("Student not found");
-                        }
+                        StudentController.update(params, this.ps);
                         break;
 
                     }
                     case DELETE: {
-                        Student s = Database.students.get(params.get("cpf"));
-                        if (s != null) {
-                            Database.students.remove(s.getCpf());
-                            this.ps.println("Student removed successfully");
-                        } else {
-                            this.ps.println("Student not found");
-                        }
+                        StudentController.delete(params, this.ps);
                         break;
 
                     }
                     case GETONE: {
-                        Student s = Database.students.get(params.get("cpf"));
-                        if (s != null) {
-                            this.ps.println(s.toString());
-                        } else {
-                            this.ps.println("Student not found");
-                        }
+                        StudentController.getOne(params, this.ps);
                         break;
 
 
                     }
                     default: {
-                        String str = "";
-                        for (String cpf : Database.students.keySet()) {
-                            str += Database.students.get(cpf).toString();
-                        }
-                        this.ps.println(str);
+                        StudentController.getAll(params, this.ps);
                         break;
                     }
                 }

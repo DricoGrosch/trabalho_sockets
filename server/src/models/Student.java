@@ -25,7 +25,7 @@ public class Student extends Person {
     @Override
     public String toString() {
         String msg = super.toString();
-        msg += "registrationNumber='" + registrationNumber + '\'' +
+        msg += ";registrationNumber='" + registrationNumber + '\'' +
                 '}';
         String rooms = "";
         for (String k : Database.classrooms.keySet()) {
