@@ -57,9 +57,11 @@ public class Classroom {
 
     @Override
     public String toString() {
-
-        return "Classroom{" +
-                "Class Number=" + classNumber + "| " +
-                '}';
+        String strStudents = this.students.toString();
+        String strTeacher = "";
+        if (this.teacher != null) {
+            strTeacher = this.teacher.toString() + " | ";
+        }
+        return "Class Number=" + classNumber + " | " + strTeacher + " | " + "Students:" + strStudents;
     }
 }

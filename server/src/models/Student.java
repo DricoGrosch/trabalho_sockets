@@ -26,14 +26,7 @@ public class Student extends Person {
     public String toString() {
         String msg = super.toString();
         msg += ";registrationNumber='" + registrationNumber + '\'' +
-                '}';
-        String rooms = "";
-        for (String k : Database.classrooms.keySet()) {
-            if (Database.classrooms.get(k).getStudent(this.getCpf()) != null) {
-                rooms += Database.classrooms.get(k).toString();
-            }
-        }
-        msg += rooms;
+                "}\n";
         return msg;
     }
 }
