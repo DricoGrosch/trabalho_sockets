@@ -33,10 +33,12 @@ public class Server {
         this.ps = new PrintStream(s.getOutputStream());
 
         this.stream = new DataInputStream(s.getInputStream());
-
-        this.ps.println("Connection established");
+        ps.println("Connection established");
         while (true) {
-            this.handleMessage(this.stream.readUTF());
+            String message = this.stream.readUTF();
+
+            String response = this.handleMessage(message);
+            this.ps.println(response);
 //            br.close();
 //            ss.close();
 //            s.close();
@@ -45,7 +47,8 @@ public class Server {
         }
     }
 
-    public void handleMessage(String message) throws ScriptException {
+    public String handleMessage(String message) throws ScriptException {
+        System.out.println(message);
         String[] query = message.split(";");
         HashMap<String, String> params = new HashMap<>();
         for (String param : query) {
@@ -55,104 +58,99 @@ public class Server {
             case "student": {
                 switch (params.get("operation")) {
                     case CREATE: {
-                        StudentController.create(params, this.ps);
-                        break;
+                        return StudentController.create(params, this.ps);
                     }
                     case UPDATE: {
-                        StudentController.update(params, this.ps);
-                        break;
+                        return StudentController.update(params, this.ps);
 
                     }
                     case DELETE: {
-                        StudentController.delete(params, this.ps);
-                        break;
+                        return StudentController.delete(params, this.ps);
 
                     }
                     case GETONE: {
-                        StudentController.getOne(params, this.ps);
-                        break;
+                        return StudentController.getOne(params, this.ps);
 
                     }
                     default: {
-                        StudentController.getAll(params, this.ps);
-                        break;
+                        return StudentController.getAll(params, this.ps);
                     }
                 }
-                break;
+
             }
             case "teacher": {
                 switch (params.get("operation")) {
                     case CREATE: {
-                        TeacherController.create(params, this.ps);
-                        break;
+                        return TeacherController.create(params, this.ps);
+
                     }
                     case UPDATE: {
-                        TeacherController.update(params, this.ps);
-                        break;
+                        return TeacherController.update(params, this.ps);
+
 
                     }
                     case DELETE: {
-                        TeacherController.delete(params, this.ps);
-                        break;
+                        return TeacherController.delete(params, this.ps);
+
 
                     }
                     case GETONE: {
-                        TeacherController.getOne(params, this.ps);
-                        break;
+                        return TeacherController.getOne(params, this.ps);
 
 
                     }
                     default: {
-                        TeacherController.getAll(params, this.ps);
-                        break;
+                        return TeacherController.getAll(params, this.ps);
+
                     }
                 }
-                break;
+
             }
             case "classroom": {
                 switch (params.get("operation")) {
                     case CREATE: {
-                        ClassroomController.create(params, this.ps);
-                        break;
+                        return ClassroomController.create(params, this.ps);
+
                     }
                     case UPDATE: {
-                        ClassroomController.update(params, this.ps);
-                        break;
+                        return ClassroomController.update(params, this.ps);
+
 
                     }
                     case DELETE: {
-                        ClassroomController.delete(params, this.ps);
-                        break;
+                        return ClassroomController.delete(params, this.ps);
+
 
                     }
                     case GETONE: {
-                        ClassroomController.getOne(params, this.ps);
-                        break;
+                        return ClassroomController.getOne(params, this.ps);
+
 
                     }
                     case ADDSTUDENT: {
-                        ClassroomController.addStudent(params, this.ps);
-                        break;
+                        return ClassroomController.addStudent(params, this.ps);
+
                     }
                     case REMOVESTUDENT: {
-                        ClassroomController.removeStudent(params, this.ps);
-                        break;
+                        return ClassroomController.removeStudent(params, this.ps);
+
                     }
                     case ADDTEACHER: {
-                        ClassroomController.addTeacher(params, this.ps);
-                        break;
+                        return ClassroomController.addTeacher(params, this.ps);
+
                     }
                     case REMOVETEACHER: {
-                        ClassroomController.removeTeacher(params, this.ps);
-                        break;
+                        return ClassroomController.removeTeacher(params, this.ps);
+
                     }
                     default: {
-                        ClassroomController.getAll(params, this.ps);
-                        break;
+                        return ClassroomController.getAll(params, this.ps);
+
                     }
                 }
-                break;
+
             }
         }
+        return "";
     }
 }

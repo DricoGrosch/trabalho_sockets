@@ -12,19 +12,22 @@ import static java.lang.Integer.parseInt;
 
 public class ClassroomController {
 
-    public static void create(HashMap<String, String> params, PrintStream ps) {
+    public static String  create(HashMap<String, String> params, PrintStream ps) {
+        if (Database.classrooms.get(params.get("classNumber")) != null) {
+            return "Classroom with this number already exists";
+        }
         String classNumber = params.get("classNumber");
         if (classNumber != null) {
             Classroom classroom = new Classroom(parseInt(classNumber));
             Database.classrooms.put("" + classroom.getClassNumber(), classroom);
-            ps.println("Classroom created successfully");
+            return"Classroom created successfully";
         } else {
-            ps.println("Classroom created ERROR");
+            return "Classroom created ERROR";
         }
 
     }
 
-    public static void update(HashMap<String, String> params, PrintStream ps) {
+    public static String  update(HashMap<String, String> params, PrintStream ps) {
         String classNumber = params.get("classNumber");
 
         String newclassNumber = params.get("newClassNumber");
@@ -38,102 +41,106 @@ public class ClassroomController {
                 newC.setClassNumber(parseInt(newclassNumber));
                 Database.classrooms.remove(classNumber);
                 Database.classrooms.put(newclassNumber, newC);
-                ps.println("Classroom updated successfully");
+                return "Classroom updated successfully";
             } else {
-                ps.println("Classroom not found to updated");
+                return "Classroom not found to updated";
             }
         } else {
-            ps.println("Classroom updated ERROR");
+            return"Classroom updated ERROR";
         }
     }
 
-    public static void delete(HashMap<String, String> params, PrintStream ps) {
+    public static String  delete(HashMap<String, String> params, PrintStream ps) {
         Classroom c = Database.classrooms.get(params.get("classNumber"));
         if (c != null) {
             if (c.getStudents().size() == 0) {
-                ps.println("Classroom cannot be removed");
+                return"Classroom cannot be removed";
             } else {
                 Database.classrooms.remove("" + c.getClassNumber());
-                ps.println("Classroom removed");
+                return "Classroom removed";
             }
         } else {
-            ps.println("Classroom not found");
+            return "Classroom not found";
         }
     }
 
-    public static void getOne(HashMap<String, String> params, PrintStream ps) {
+    public static String  getOne(HashMap<String, String> params, PrintStream ps) {
         Classroom c = Database.classrooms.get(params.get("classNumber"));
         if (c != null) {
-            ps.println(c.toString());
+            return c.toString();
         } else {
-            ps.println("Classroom not found");
+            return "Classroom not found";
         }
     }
 
-    public static void addStudent(HashMap<String, String> params, PrintStream ps) {
+    public static String  addStudent(HashMap<String, String> params, PrintStream ps) {
         Classroom c = Database.classrooms.get(params.get("classNumber"));
         if (c != null) {
             Student student = Database.students.get(params.get("cpf"));
             if (student != null) {
                 c.addStudent(student.getCpf());
-                ps.println("Student added successfully");
+                return "Student added successfully";
             } else {
-                ps.println("Failed to add the student");
+                return "Failed to add the student";
             }
 
         } else {
-            ps.println("Classroom not found");
+            return"Classroom not found";
         }
 
     }
 
-    public static void addTeacher(HashMap<String, String> params, PrintStream ps) {
+    public static String  addTeacher(HashMap<String, String> params, PrintStream ps) {
         Classroom c = Database.classrooms.get(params.get("classNumber"));
         if (c != null) {
             Teacher teacher = Database.teachers.get(params.get("cpf"));
             if (teacher != null) {
                 c.setTeacher(teacher);
-                ps.println("Teacher added successfully");
+                return "Teacher added successfully";
             } else {
-                ps.println("Failed to add the teacher");
+                return "Failed to add the teacher";
             }
         } else {
-            ps.println("Classroom not found");
+            return "Classroom not found";
         }
 
     }
 
-    public static void removeStudent(HashMap<String, String> params, PrintStream ps) {
+    public static String  removeStudent(HashMap<String, String> params, PrintStream ps) {
         Classroom c = Database.classrooms.get(params.get("classNumber"));
         if (c != null) {
             Student student = c.getStudents().get(params.get("cpf"));
             if (student != null) {
                 c.getStudents().remove(student.getCpf());
-                ps.println("Student removed successfully");
+                return"Student removed successfully";
             } else {
-                ps.println("Student not found");
+                return"Student not found";
             }
         } else {
-            ps.println("Classroom not found");
-        }
+            return"Classroom not found";
+        } 
     }
 
-    public static void removeTeacher(HashMap<String, String> params, PrintStream ps) {
+    public static String  removeTeacher(HashMap<String, String> params, PrintStream ps) {
         Classroom c = Database.classrooms.get(params.get("classNumber"));
         if (c != null) {
-            c.setTeacher(null);
-            ps.println("Teacher removed successfully");
+            if(c.getTeacher() !=null){
+                c.setTeacher(null);
+                return "Teacher removed successfully";
+            }else{
+                return "Classroom has no attr teacher";
+            }
         } else {
-            ps.println("Classroom not found");
+            return "Classroom not found";
         }
     }
 
-    public static void getAll(HashMap<String, String> params, PrintStream ps) {
+    public static String  getAll(HashMap<String, String> params, PrintStream ps) {
         String str = "";
         for (String classNumber : Database.classrooms.keySet()) {
             Classroom c = Database.classrooms.get(classNumber);
             str += c.toString();
         }
-        ps.println(str);
+        return str;
     }
 }

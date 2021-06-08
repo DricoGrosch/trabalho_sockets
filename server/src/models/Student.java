@@ -25,8 +25,7 @@ public class Student extends Person {
     @Override
     public String toString() {
         String msg = super.toString();
-        msg += ";registrationNumber='" + registrationNumber + '\'' +
-                "}\n";
+        msg += ";registrationNumber='" + registrationNumber+" | ";
         return msg;
     }
 }
