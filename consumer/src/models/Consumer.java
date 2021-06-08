@@ -55,7 +55,7 @@ public class Consumer {
                             "4 - GET ONE \n" +
                             "5 - LIST ALL";
                     if (modelToHandle == 3){
-                        msg += "\n"+"6 - ADD STUDENT";
+                        msg += "\n"+"6 - ADD STUDENT\n"+ "7 - REMOVE STUDENT \n" + "8 - ADD TEACHER \n" + "9 - REMOVE TEACHER \n" ;
                     }
                         System.out.println(msg);
                     operation = s.nextInt();
@@ -65,7 +65,7 @@ public class Consumer {
                         String strParams = "";
                         String strOperation = "getall";
                         switch (operation) {
-                            case 1: {
+                            case 1 : {
                                 System.out.println("cpf");
                                 String cpf = s.next();
                                 System.out.println("name");
@@ -209,8 +209,52 @@ public class Consumer {
                                 break;
 
 
+
                             }
+                            case 7:{
+                                System.out.println("Class Number");
+                                String classNumber = s.next();
+
+                                System.out.println("CPF Student");
+                                String cpf = s.next();
+
+                                strParams = "classNumber=" + classNumber + ";cpf=" + cpf;
+                                strOperation = "removestudent";
+                                break;
+
+
+                            }
+
+                            case 8:{
+                                System.out.println("Class Number");
+                                String classNumber = s.next();
+
+                                System.out.println("CPF Teacher");
+                                String cpf = s.next();
+
+                                strParams = "classNumber=" + classNumber + ";cpf=" + cpf;
+                                strOperation = "addteacher";
+                                break;
+
+
+                            }
+
+                            case 9:{
+                                System.out.println("Class Number");
+                                String classNumber = s.next();
+
+
+
+                                strParams = "classNumber=" + classNumber ;
+                                strOperation = "removeteacher";
+                                break;
+
+
+                            }
+
+
                         }
+
                         String message = "model=classroom;operation=" + strOperation + ";" + strParams;
                         this.stream.writeUTF(message);
                         break;
