@@ -18,8 +18,8 @@ public class Server {
     final String DELETE = "delete";
     final String GETONE = "getone";
     final String ADDSTUDENT = "addstudent";
-    final String ADDTEACHER = "addteacher";
     final String REMOVESTUDENT = "removestudent";
+    final String ADDTEACHER = "addteacher";
     final String REMOVETEACHER = "removeteacher";
     PrintStream ps;
     DataInputStream stream;
@@ -37,7 +37,6 @@ public class Server {
         this.ps.println("Connection established");
         while (true) {
             this.handleMessage(this.stream.readUTF());
-
 //            br.close();
 //            ss.close();
 //            s.close();
@@ -46,7 +45,6 @@ public class Server {
         }
     }
 
-    //todo criar um controller porque isso aqui ta muito grande
     public void handleMessage(String message) throws ScriptException {
         String[] query = message.split(";");
         HashMap<String, String> params = new HashMap<>();
@@ -55,8 +53,6 @@ public class Server {
         }
         switch (params.get("model")) {
             case "student": {
-//                todo replicar pras outras classes (sala tem que ter uma opção pra add aluno e professor)
-//                todo só passar o cpf de cada um e adicionar no objeto de turma (hashmap.put(cpf, objeto))
                 switch (params.get("operation")) {
                     case CREATE: {
                         StudentController.create(params, this.ps);
@@ -75,7 +71,6 @@ public class Server {
                     case GETONE: {
                         StudentController.getOne(params, this.ps);
                         break;
-
 
                     }
                     default: {
@@ -131,13 +126,24 @@ public class Server {
 
                     }
                     case GETONE: {
-                        //ClassroomController.getOne(params, this.ps);
+                        ClassroomController.getOne(params, this.ps);
                         break;
 
-
                     }
-                    case ADDSTUDENT:{
+                    case ADDSTUDENT: {
                         ClassroomController.addStudent(params, this.ps);
+                        break;
+                    }
+                    case REMOVESTUDENT: {
+                        ClassroomController.removeStudent(params, this.ps);
+                        break;
+                    }
+                    case ADDTEACHER: {
+                        ClassroomController.addTeacher(params, this.ps);
+                        break;
+                    }
+                    case REMOVETEACHER: {
+                        ClassroomController.removeTeacher(params, this.ps);
                         break;
                     }
                     default: {
